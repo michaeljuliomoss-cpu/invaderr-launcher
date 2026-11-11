@@ -121,7 +121,6 @@ def main() -> int:
     connected = False
     already = False
     exited_at = None
-    alive_since = None
     while time.time() < deadline:
         time.sleep(2)
         try:
@@ -141,13 +140,7 @@ def main() -> int:
                 exited_at = time.time()
             elif time.time() - exited_at > 30:
                 break
-        else:
-            # process is alive: treat 60s of continuous uptime as connected
-            if alive_since is None:
-                alive_since = time.time()
-            elif time.time() - alive_since > 60:
-                connected = True
-                break
+
 
     conf = read_env(os.path.join(HOME, ".env"))
     token = conf.get("TELEGRAM_BOT_TOKEN", "")
